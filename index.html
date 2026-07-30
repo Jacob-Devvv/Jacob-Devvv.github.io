@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Dev | Software & Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --accent-blue: #58a6ff;
+            --accent-green: #238636;
+            --text-main: #c9d1d9;
+            --text-white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+        }
+
+        header h1 {
+            color: var(--text-white);
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+        }
+
+        header h1 span {
+            color: var(--accent-blue);
+        }
+
+        header p {
+            color: #8b949e;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            width: fit-content;
+            margin-bottom: 15px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .product-card h3 {
+            color: var(--text-white);
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+        }
+
+        .product-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #8b949e;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            background-color: var(--accent-green);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #2ea043;
+        }
+
+        .btn-coming {
+            background-color: var(--border);
+            color: #8b949e;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border);
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Jacob <span>Dev</span></h1>
+        <p>Oficjalny katalog narzędzi, skryptów i automatyzacji.</p>
+    </header>
+
+    <div class="container">
+        <div class="products-grid">
+            
+            <!-- PRODUKT 1: Drop All (Auto-Backuper Pro) -->
+            <div class="product-card">
+                <div>
+                    <div class="badge">LICENSED TOOL</div>
+                    <h3>Drop All</h3>
+                    <p>Automatyczny system kopii zapasowych dla serwerów. Szyfrowanie, sumy kontrolne SHA256 i ochrona HWID.</p>
+                </div>
+                <a href="#" class="btn">Kup / Zobacz Więcej</a>
+            </div>
+
+            <!-- PRODUKT 2: Miejsce na Twój kolejny projekt -->
+            <div class="product-card">
+                <div>
+                    <div class="badge" style="color: #ffbd2e; border-color: rgba(255,189,46,0.2); background: rgba(255,189,46,0.1);">W PRZYGOTOWANIU</div>
+                    <h3>Kolejny Moduł</h3>
+                    <p>Nowe narzędzie pojawi się niedługo. Pracujemy nad kolejnymi automatyzacjami.</p>
+                </div>
+                <a href="#" class="btn btn-coming">Wkrótce</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Jacob Dev. All rights reserved.
+    </footer>
+
+</body>
+</html>
