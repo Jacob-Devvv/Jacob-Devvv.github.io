@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Backup & System Licencji - Serwis Oprogramowania</title>
+    <title>Jacob Dev - Panel Usług</title>
     <style>
         * {
             margin: 0;
@@ -12,52 +12,72 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #0f172a;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
             color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .brand {
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #38bdf8, #c084fc, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .brand-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         .wrapper {
             max-width: 1100px;
             width: 100%;
-            text-align: center;
-        }
-        .main-title {
-            font-size: 32px;
-            margin-bottom: 40px;
-            color: #f8fafc;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             justify-content: center;
         }
         .container {
-            background-color: #1e293b;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             text-align: left;
-            border: 1px solid #334155;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
         }
-        h1 {
+        .container:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+        h2 {
             font-size: 24px;
             margin-bottom: 5px;
             color: #38bdf8;
         }
         .tagline {
             font-size: 13px;
-            color: #94a3b8;
+            color: #c084fc;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 600;
         }
         .description {
             font-size: 14px;
@@ -90,7 +110,7 @@
         }
         .btn {
             display: inline-block;
-            background-color: #0284c7;
+            background: linear-gradient(90deg, #0284c7, #0369a1);
             color: white;
             padding: 12px 24px;
             font-size: 15px;
@@ -98,11 +118,12 @@
             text-decoration: none;
             border-radius: 8px;
             text-align: center;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: opacity 0.2s, transform 0.1s;
             width: 100%;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
         }
         .btn:hover {
-            background-color: #0369a1;
+            opacity: 0.9;
         }
         .btn:active {
             transform: scale(0.98);
@@ -111,18 +132,21 @@
 </head>
 <body>
 
+    <header>
+        <div class="brand">Jacob Dev</div>
+        <div class="brand-subtitle">Profesjonalne Oprogramowanie i Systemy</div>
+    </header>
+
     <div class="wrapper">
-        <h1 class="main-title">Dostępne rozwiązania systemowe</h1>
-        
         <div class="grid">
             <!-- Produkt 1 -->
             <div class="container">
                 <div>
-                    <h1>Auto Backup</h1>
+                    <h2>Auto Backup</h2>
                     <div class="tagline">Enterprise Server Protection</div>
                     
                     <p class="description">
-                        Zaawansowany, w pełni zautomatyzowany system tworzenia i szyfrowania kopii zapasowych dla wymagających środowisk serwerowych. **Auto Backup** gwarantuje stuprocentową integralność danych dzięki wbudowanym sumom kontrolnym **SHA256** oraz rygorystycznej, sprzętowej ochronie licencji **HWID**, która uniemożliwia nieautoryzowane powielanie instancji.
+                        Zaawansowany, w pełni zautomatyzowany system tworzenia i szyfrowania kopii zapasowych dla wymagających środowisk serwerowych. <strong>Auto Backup</strong> gwarantuje stuprocentową integralność danych dzięki wbudowanym sumom kontrolnym <strong>SHA256</strong> oraz rygorystycznej, sprzętowej ochronie licencji <strong>HWID</strong>, która uniemożliwia nieautoryzowane powielanie instancji.
                     </p>
 
                     <ul class="features">
@@ -141,11 +165,11 @@
             <!-- Produkt 2 -->
             <div class="container">
                 <div>
-                    <h1>System Licencji</h1>
+                    <h2>System Licencji</h2>
                     <div class="tagline">Core Protection & Authorization</div>
                     
                     <p class="description">
-                        Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. **System Licencji** rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielania, modyfikacji czy crackowania kodu.
+                        Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. <strong>System Licencji</strong> rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielania, modyfikacji czy crackowania kodu.
                     </p>
 
                     <ul class="features">
