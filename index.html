@@ -12,8 +12,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
-            color: #f8fafc;
+            background-color: #0b0f19;
+            color: #ffffff;
             min-height: 100vh;
             padding: 40px 20px;
             display: flex;
@@ -27,11 +27,12 @@
         .brand {
             font-size: 38px;
             font-weight: 800;
-            background: linear-gradient(90deg, #38bdf8, #c084fc, #f43f5e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
             margin-bottom: 10px;
             letter-spacing: 1px;
+        }
+        .brand span {
+            color: #38bdf8;
         }
         .brand-subtitle {
             font-size: 14px;
@@ -50,30 +51,29 @@
             justify-content: center;
         }
         .container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
+            background-color: #111827;
             padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #1f2937;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: border-color 0.2s, transform 0.2s;
         }
         .container:hover {
-            transform: translateY(-5px);
-            border-color: rgba(56, 189, 248, 0.4);
+            border-color: #38bdf8;
+            transform: translateY(-4px);
         }
         h2 {
             font-size: 24px;
             margin-bottom: 5px;
-            color: #38bdf8;
+            color: #ffffff;
         }
         .tagline {
             font-size: 13px;
-            color: #c084fc;
+            color: #38bdf8;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -82,14 +82,14 @@
         .description {
             font-size: 14px;
             line-height: 1.6;
-            color: #cbd5e1;
+            color: #9ca3af;
             margin-bottom: 20px;
         }
         .features {
             list-style: none;
             margin-bottom: 25px;
             font-size: 13px;
-            color: #cbd5e1;
+            color: #d1d5db;
         }
         .features li {
             margin-bottom: 8px;
@@ -105,25 +105,24 @@
         .price {
             font-size: 28px;
             font-weight: bold;
-            color: #f8fafc;
+            color: #ffffff;
             margin-bottom: 20px;
         }
         .btn {
             display: inline-block;
-            background: linear-gradient(90deg, #0284c7, #0369a1);
-            color: white;
+            background-color: #38bdf8;
+            color: #0b0f19;
             padding: 12px 24px;
             font-size: 15px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
             text-align: center;
-            transition: opacity 0.2s, transform 0.1s;
+            transition: background-color 0.2s, transform 0.1s;
             width: 100%;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
         }
         .btn:hover {
-            opacity: 0.9;
+            background-color: #0ea5e9;
         }
         .btn:active {
             transform: scale(0.98);
@@ -133,7 +132,7 @@
 <body>
 
     <header>
-        <div class="brand">Jacob Dev</div>
+        <div class="brand">Jacob <span>Dev</span></div>
         <div class="brand-subtitle">Profesjonalne Oprogramowanie i Systemy</div>
     </header>
 
