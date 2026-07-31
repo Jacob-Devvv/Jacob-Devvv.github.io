@@ -190,6 +190,29 @@
             padding: 10px;
             border-radius: 6px;
         }
+        .cart-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .cart-item-price {
+            font-size: 12px;
+            color: #38bdf8;
+            font-weight: 600;
+        }
+        .btn-remove {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 5px;
+            transition: color 0.2s;
+        }
+        .btn-remove:hover {
+            color: #dc2626;
+        }
         .hwid-section {
             margin-bottom: 20px;
         }
@@ -291,7 +314,7 @@
                         <div class="tagline">Core Protection & Authorization</div>
                         
                         <p class="description">
-                            Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. <strong>System Licencji</strong> rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielenia, modyfikacji czy crackowania kodu.
+                            Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. <strong>System Licencji</strong> rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielania, modyfikacji czy crackowania kodu.
                         </p>
 
                         <ul class="features">
@@ -340,7 +363,7 @@
         let cart = [];
 
         function addToCart(name, price) {
-            // Sprawdzamy, czy produkt już jest w koszyku
+            // Blokada powielania tego samego produktu w koszyku
             const exists = cart.some(item => item.name === name);
             if (!exists) {
                 cart.push({ name, price });
@@ -371,7 +394,13 @@
                 sum += item.price;
                 const li = document.createElement('li');
                 li.className = 'cart-item';
-                li.innerHTML = `<span>${item.name} (${item.price.toFixed(2)} PLN)</span> <button onclick="removeFromCart('${item.name}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; font-size:16px;" title="Usuń">×</button>`;
+                li.innerHTML = `
+                    <div class="cart-item-info">
+                        <span>${item.name}</span>
+                        <span class="cart-item-price">${item.price.toFixed(2)} PLN</span>
+                    </div>
+                    <button class="btn-remove" onclick="removeFromCart('${item.name}')" title="Usuń produkt">×</button>
+                `;
                 list.appendChild(li);
             });
 
