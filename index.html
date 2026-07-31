@@ -291,7 +291,7 @@
                         <div class="tagline">Core Protection & Authorization</div>
                         
                         <p class="description">
-                            Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. <strong>System Licencji</strong> rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielania, modyfikacji czy crackowania kodu.
+                            Autorski, w pełni niezależny mechanizm autoryzacji sprzętowej stworzony do absolutnej kontroli dostępu oraz ochrony przed inżynierią wsteczną. <strong>System Licencji</strong> rygorystycznie weryfikuje unikalny identyfikator każdej maszyny, uniemożliwiając jakiekolwiek próby nielegalnego powielenia, modyfikacji czy crackowania kodu.
                         </p>
 
                         <ul class="features">
@@ -340,12 +340,17 @@
         let cart = [];
 
         function addToCart(name, price) {
-            // Sprawdzamy czy produkt już jest w koszyku (blokada dublowania tej samej rzeczy)
+            // Sprawdzamy, czy produkt już jest w koszyku
             const exists = cart.some(item => item.name === name);
             if (!exists) {
                 cart.push({ name, price });
                 updateCartUI();
             }
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
         }
 
         function updateCartUI() {
@@ -366,7 +371,7 @@
                 sum += item.price;
                 const li = document.createElement('li');
                 li.className = 'cart-item';
-                li.innerHTML = `<span>${item.name}</span> <span>${item.price.toFixed(2)} PLN</span>`;
+                li.innerHTML = `<span>${item.name} (${item.price.toFixed(2)} PLN)</span> <button onclick="removeFromCart('${item.name}')" style="background:none; border:none; color:#ef4444; cursor:pointer; font-weight:bold; font-size:16px;" title="Usuń">×</button>`;
                 list.appendChild(li);
             });
 
