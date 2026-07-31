@@ -102,6 +102,10 @@
             color: #ffffff;
             margin-bottom: 20px;
         }
+        .action-group {
+            display: flex;
+            gap: 12px;
+        }
         .btn {
             display: inline-block;
             background-color: #38bdf8;
@@ -113,13 +117,26 @@
             border-radius: 8px;
             text-align: center;
             transition: background-color 0.2s, transform 0.1s;
-            width: 100%;
+            flex: 1;
         }
         .btn:hover {
             background-color: #0ea5e9;
         }
         .btn:active {
             transform: scale(0.98);
+        }
+        .btn-cart {
+            background-color: #ffffff;
+            color: #0b0f19;
+            flex: 0 0 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 18px;
+        }
+        .btn-cart:hover {
+            background-color: #e2e8f0;
         }
     </style>
 </head>
@@ -149,7 +166,10 @@
 
             <div>
                 <div class="price">37.50 PLN</div>
-                <a href="#" class="btn">Kup Teraz</a>
+                <div class="action-group">
+                    <a href="#" class="btn">Kup Teraz</a>
+                    <a href="#" class="btn btn-cart" title="Dodaj do koszyka">🛒</a>
+                </div>
             </div>
         </div>
     </div>
