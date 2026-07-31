@@ -216,12 +216,20 @@
         .hwid-section {
             margin-bottom: 20px;
         }
+        .hwid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
         .hwid-section label {
-            display: block;
             font-size: 13px;
             color: #94a3b8;
-            margin-bottom: 6px;
             font-weight: 600;
+        }
+        .hwid-counter {
+            font-size: 11px;
+            color: #64748b;
         }
         .hwid-input {
             width: 100%;
@@ -236,6 +244,12 @@
         }
         .hwid-input:focus {
             border-color: #38bdf8;
+        }
+        .hwid-error {
+            font-size: 11px;
+            color: #ef4444;
+            margin-top: 4px;
+            display: none;
         }
         .cart-total {
             font-size: 18px;
@@ -342,8 +356,12 @@
                 </ul>
                 
                 <div class="hwid-section">
-                    <label for="hwidInput">Twój identyfikator HWID:</label>
-                    <input type="text" id="hwidInput" class="hwid-input" placeholder="Wprowadź HWID maszyny...">
+                    <div class="hwid-header">
+                        <label for="hwidInput">Identyfikator HWID:</label>
+                        <span class="hwid-counter" id="hwidCounter">16 - 64 znaki</span>
+                    </div>
+                    <input type="text" id="hwidInput" class="hwid-input" placeholder="Wprowadź HWID maszyny..." oninput="validateHWID()">
+                    <div class="hwid-error" id="hwidError">HWID musi mieć od 16 do 64 znaków.</div>
                 </div>
 
                 <div class="cart-total">
@@ -363,7 +381,6 @@
         let cart = [];
 
         function addToCart(name, price) {
-            // Blokada powielania tego samego produktu w koszyku
             const exists = cart.some(item => item.name === name);
             if (!exists) {
                 cart.push({ name, price });
@@ -405,6 +422,20 @@
             });
 
             totalSum.textContent = sum.toFixed(2) + ' PLN';
+        }
+
+        function validateHWID() {
+            const input = document.getElementById('hwidInput');
+            const error = document.getElementById('hwidError');
+            const length = input.value.trim().length;
+
+            if (length > 0 && (length < 16 || length > 64)) {
+                input.style.borderColor = '#ef4444';
+                error.style.display = 'block';
+            } else {
+                input.style.borderColor = length >= 16 ? '#10b981' : '#1f2937';
+                error.style.display = 'none';
+            }
         }
     </script>
 
