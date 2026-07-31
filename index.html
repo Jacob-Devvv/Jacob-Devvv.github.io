@@ -69,24 +69,61 @@
         }
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f2937;
+            padding-bottom: 20px;
+        }
+        .brand-container {
+            text-align: left;
         }
         .brand {
-            font-size: 38px;
+            font-size: 32px;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 10px;
             letter-spacing: 1px;
         }
         .brand span {
             color: #38bdf8;
         }
         .brand-subtitle {
-            font-size: 14px;
+            font-size: 12px;
             color: #94a3b8;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
+        .user-nav {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-nav {
+            background-color: #1f2937;
+            color: #ffffff;
+            border: 1px solid #374151;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .btn-nav:hover {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        .btn-nav.primary {
+            background-color: #38bdf8;
+            color: #0b0f19;
+            border: none;
+        }
+        .btn-nav.primary:hover {
+            background-color: #0ea5e9;
+        }
+
         .main-layout {
             display: flex;
             gap: 30px;
@@ -277,7 +314,7 @@
             font-size: 11px;
             color: #64748b;
         }
-        .hwid-input {
+        .hwid-input, .modal-input {
             width: 100%;
             background: #0b0f19;
             border: 1px solid #1f2937;
@@ -288,7 +325,7 @@
             outline: none;
             transition: border-color 0.2s;
         }
-        .hwid-input:focus {
+        .hwid-input:focus, .modal-input:focus {
             border-color: #38bdf8;
         }
         .hwid-error {
@@ -318,10 +355,79 @@
             border-radius: 8px;
             text-decoration: none;
             transition: background-color 0.2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
         }
         .btn-checkout:hover {
             background-color: #059669;
         }
+
+        /* Style Modalnych Okienek (Logowanie / Rejestracja) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(11, 15, 25, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .modal-box h3 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .modal-field {
+            margin-bottom: 15px;
+        }
+        .modal-field label {
+            display: block;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .modal-error {
+            color: #ef4444;
+            font-size: 12px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-close {
+            background-color: #1f2937;
+            color: #94a3b8;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-close:hover {
+            background-color: #374151;
+            color: #ffffff;
+        }
+
         footer {
             text-align: center;
             font-size: 13px;
@@ -344,10 +450,16 @@
 
     <!-- WŁAŚCIWA TREŚĆ STRONY (Ukryta do czasu weryfikacji) -->
     <div id="app-content">
-        <div>
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <header>
-                <div class="brand">Jacob <span>Dev</span></div>
-                <div class="brand-subtitle">Profesjonalne Oprogramowanie i Systemy</div>
+                <div class="brand-container">
+                    <div class="brand">Jacob <span>Dev</span></div>
+                    <div class="brand-subtitle">Profesjonalne Oprogramowanie i Systemy</div>
+                </div>
+                <div class="user-nav" id="userNavSection">
+                    <button class="btn-nav" onclick="openModal('loginModal')">Logowanie</button>
+                    <button class="btn-nav primary" onclick="openModal('registerModal')">Rejestracja</button>
+                </div>
             </header>
 
             <div class="main-layout">
@@ -425,7 +537,7 @@
                         <span>Razem:</span>
                         <span id="cartTotalSum">0.00 PLN</span>
                     </div>
-                    <a href="#" class="btn-checkout">Przejdź do płatności</a>
+                    <button class="btn-checkout" onclick="proceedToCheckout()">Przejdź do płatności</button>
                 </div>
             </div>
         </div>
@@ -433,6 +545,50 @@
         <footer>
             © 2026 Jacob Dev Corporation
         </footer>
+    </div>
+
+    <!-- MODAL: REJESTRACJA -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-box">
+            <h3>Utwórz konto</h3>
+            <div class="modal-field">
+                <label>Nazwa użytkownika:</label>
+                <input type="text" id="regUser" class="modal-input" placeholder="Wprowadź login...">
+            </div>
+            <div class="modal-field">
+                <label>Hasło:</label>
+                <input type="password" id="regPass" class="modal-input" placeholder="Wprowadź hasło...">
+            </div>
+            <div class="modal-field">
+                <label>HWID komputera:</label>
+                <input type="text" id="regHwid" class="modal-input" placeholder="HWID (16-64 znaków)...">
+            </div>
+            <div class="modal-error" id="regError">Wypełnij wszystkie pola poprawnie!</div>
+            <div class="modal-actions">
+                <button class="btn-close" onclick="closeModal('registerModal')">Anuluj</button>
+                <button class="btn primary" style="flex:1;" onclick="handleRegister()">Zarejestruj</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LOGOWANIE -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <h3>Logowanie do konta</h3>
+            <div class="modal-field">
+                <label>Nazwa użytkownika:</label>
+                <input type="text" id="logUser" class="modal-input" placeholder="Wprowadź login...">
+            </div>
+            <div class="modal-field">
+                <label>Hasło:</label>
+                <input type="password" id="logPass" class="modal-input" placeholder="Wprowadź hasło...">
+            </div>
+            <div class="modal-error" id="logError">Błędny login lub hasło!</div>
+            <div class="modal-actions">
+                <button class="btn-close" onclick="closeModal('loginModal')">Anuluj</button>
+                <button class="btn primary" style="flex:1;" onclick="handleLogin()">Zaloguj</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -450,6 +606,12 @@
         }
 
         let cart = [];
+        let currentUser = JSON.parse(localStorage.getItem('jacob_current_user')) || null;
+
+        // Inicjalizacja stanu konta przy ładowaniu
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUserNav();
+        });
 
         function addToCart(name, price) {
             const exists = cart.some(item => item.name === name);
@@ -506,6 +668,113 @@
             } else {
                 input.style.borderColor = length >= 16 ? '#10b981' : '#1f2937';
                 error.style.display = 'none';
+            }
+        }
+
+        function proceedToCheckout() {
+            if (!currentUser) {
+                alert('Musisz być zalogowany, aby dokonać zakupu i powiązać licencję z kontem!');
+                openModal('loginModal');
+                return;
+            }
+            const hwid = document.getElementById('hwidInput').value.trim();
+            if (hwid.length < 16 || hwid.length > 64) {
+                alert('Wprowadź poprawny HWID (od 16 do 64 znaków) w koszyku przed przejściem dalej!');
+                return;
+            }
+            if (cart.length === 0) {
+                alert('Twój koszyk jest pusty!');
+                return;
+            }
+            alert(`Zamówienie dla konta [${currentUser.username}] zostało złożone pomyślnie! Licencja została powiązana z HWID: ${hwid}`);
+            cart = [];
+            updateCartUI();
+        }
+
+        // Obsługa Modali i Kont
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function handleRegister() {
+            const username = document.getElementById('regUser').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            const hwid = document.getElementById('regHwid').value.trim();
+            const errorDiv = document.getElementById('regError');
+
+            if (username.length < 3 || pass.length < 4 || hwid.length < 16 || hwid.length > 64) {
+                errorDiv.textContent = 'Błędne dane! HWID musi mieć 16-64 znaki, login min. 3, hasło min. 4.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
+            if (users.some(u => u.username === username)) {
+                errorDiv.textContent = 'Taki użytkownik już istnieje!';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            users.push({ username, pass, hwid });
+            localStorage.setItem('jacob_users', JSON.stringify(users));
+            
+            errorDiv.style.display = 'none';
+            closeModal('registerModal');
+            alert('Konto zostało pomyślnie utworzone! Możesz się teraz zalogować.');
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('logUser').value.trim();
+            const pass = document.getElementById('logPass').value.trim();
+            const errorDiv = document.getElementById('logError');
+
+            let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
+            const foundUser = users.find(u => u.username === username && u.pass === pass);
+
+            if (!foundUser) {
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+            currentUser = foundUser;
+            localStorage.setItem('jacob_current_user', JSON.stringify(currentUser));
+            
+            // Automatycznie uzupełnij HWID w koszyku z zapisanego profilu konta
+            document.getElementById('hwidInput').value = currentUser.hwid;
+            validateHWID();
+
+            closeModal('loginModal');
+            updateUserNav();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('jacob_current_user');
+            updateUserNav();
+        }
+
+        function updateUserNav() {
+            const navSection = document.getElementById('userNavSection');
+            if (currentUser) {
+                navSection.innerHTML = `
+                    <span style="display:flex; align-items:center; color:#38bdf8; font-size:14px; font-weight:600; margin-right:10px;">👤 ${currentUser.username}</span>
+                    <button class="btn-nav" onclick="handleLogout()">Wyloguj</button>
+                `;
+                // Uzupełnij HWID jeśli jest w sesji
+                if(currentUser.hwid) {
+                    document.getElementById('hwidInput').value = currentUser.hwid;
+                    validateHWID();
+                }
+            } else {
+                navSection.innerHTML = `
+                    <button class="btn-nav" onclick="openModal('loginModal')">Logowanie</button>
+                    <button class="btn-nav primary" onclick="openModal('registerModal')">Rejestracja</button>
+                `;
             }
         }
     </script>
