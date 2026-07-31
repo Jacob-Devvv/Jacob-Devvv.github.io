@@ -574,6 +574,10 @@
                 <input type="text" id="regUser" class="modal-input" placeholder="Wprowadź login...">
             </div>
             <div class="modal-field">
+                <label>Adres E-mail:</label>
+                <input type="email" id="regEmail" class="modal-input" placeholder="Wprowadź e-mail...">
+            </div>
+            <div class="modal-field">
                 <label>Hasło:</label>
                 <input type="password" id="regPass" class="modal-input" placeholder="Wprowadź hasło...">
             </div>
@@ -610,28 +614,41 @@
         </div>
     </div>
 
-    <!-- MODAL: ODZYSKIWANIE HASŁA -->
+    <!-- MODAL: ODZYSKIWANIE HASŁA (KROK 1: ŻĄDANIE LINKU E-MAIL) -->
     <div class="modal-overlay" id="forgotModal">
         <div class="modal-box">
             <h3>Resetowanie hasła</h3>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Podaj swój login oraz przypisany do konta HWID, aby ustawić nowe hasło.</p>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:15px;">Podaj e-mail oraz przypisany HWID konta, aby wygenerować link resetujący.</p>
             <div class="modal-field">
-                <label>Nazwa użytkownika:</label>
-                <input type="text" id="forgotUser" class="modal-input" placeholder="Wprowadź login...">
+                <label>Adres E-mail:</label>
+                <input type="email" id="forgotEmail" class="modal-input" placeholder="Wprowadź e-mail konta...">
             </div>
             <div class="modal-field">
                 <label>HWID komputera:</label>
-                <input type="text" id="forgotHwid" class="modal-input" placeholder="Wprowadź HWID konta...">
+                <input type="text" id="forgotHwid" class="modal-input" placeholder="Wprowadź HWID komputera...">
             </div>
-            <div class="modal-field">
-                <label>Nowe hasło:</label>
-                <input type="password" id="forgotNewPass" class="modal-input" placeholder="Wprowadź nowe hasło...">
-            </div>
-            <div class="modal-error" id="forgotError">Nieprawidłowy login lub HWID!</div>
-            <div class="modal-success" id="forgotSuccess">Hasło zostało pomyślnie zmienione!</div>
+            <div class="modal-error" id="forgotError">Nie znaleziono konta dla podanego e-maila i HWID!</div>
+            <div class="modal-success" id="forgotSuccess">Link resetujący został wysłany! Sprawdź symulowaną skrzynkę.</div>
             <div class="modal-actions">
                 <button class="btn-close" onclick="closeModal('forgotModal')">Anuluj</button>
-                <button class="btn primary" style="flex:1;" onclick="handleResetPassword()">Zmień hasło</button>
+                <button class="btn primary" style="flex:1;" onclick="handleSendResetLink()">Wyślij link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: WŁAŚCIWY RESET HASŁA Z LINKU -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal-box">
+            <h3>Nowe Hasło</h3>
+            <p style="font-size:12px; color:#38bdf8; margin-bottom:15px;">Wpisz nowe hasło dla konta powiązanego z bezpiecznym linkiem.</p>
+            <div class="modal-field">
+                <label>Nowe hasło:</label>
+                <input type="password" id="newPassFromLink" class="modal-input" placeholder="Wprowadź nowe hasło...">
+            </div>
+            <div class="modal-error" id="resetError">Hasło musi mieć minimum 4 znaki!</div>
+            <div class="modal-success" id="resetSuccess">Hasło zmienione pomyślnie! Możesz się zalogować.</div>
+            <div class="modal-actions">
+                <button class="btn primary" style="flex:1;" onclick="handleConfirmReset()">Zapisz i zaloguj</button>
             </div>
         </div>
     </div>
@@ -652,10 +669,24 @@
 
         let cart = [];
         let currentUser = JSON.parse(localStorage.getItem('jacob_current_user')) || null;
+        let activeResetUser = null; // Tymczasowe konto podczas resetu z linku
 
-        // Inicjalizacja stanu konta przy ładowaniu
+        // Sprawdzenie na starcie, czy w URL znajduje się token resetujący (symulacja kliknięcia w link z e-maila)
         window.addEventListener('DOMContentLoaded', () => {
             updateUserNav();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const resetToken = urlParams.get('reset_token');
+            if (resetToken) {
+                let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
+                const found = users.find(u => u.token === resetToken);
+                if (found) {
+                    activeResetUser = found.username;
+                    openModal('resetModal');
+                } else {
+                    alert('Nieprawidłowy lub wygasły link resetowania hasła!');
+                }
+            }
         });
 
         function addToCart(name, price) {
@@ -747,9 +778,8 @@
 
         function openForgotPassword() {
             closeModal('loginModal');
-            document.getElementById('forgotUser').value = '';
+            document.getElementById('forgotEmail').value = '';
             document.getElementById('forgotHwid').value = '';
-            document.getElementById('forgotNewPass').value = '';
             document.getElementById('forgotError').style.display = 'none';
             document.getElementById('forgotSuccess').style.display = 'none';
             openModal('forgotModal');
@@ -757,24 +787,25 @@
 
         function handleRegister() {
             const username = document.getElementById('regUser').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPass').value.trim();
             const hwid = document.getElementById('regHwid').value.trim();
             const errorDiv = document.getElementById('regError');
 
-            if (username.length < 3 || pass.length < 4 || hwid.length < 16 || hwid.length > 64) {
-                errorDiv.textContent = 'Błędne dane! HWID musi mieć 16-64 znaki, login min. 3, hasło min. 4.';
+            if (username.length < 3 || !email.includes('@') || pass.length < 4 || hwid.length < 16 || hwid.length > 64) {
+                errorDiv.textContent = 'Błędne dane! Sprawdź poprawność e-maila, HWID (16-64 znaki) i hasła.';
                 errorDiv.style.display = 'block';
                 return;
             }
 
             let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
-            if (users.some(u => u.username === username)) {
-                errorDiv.textContent = 'Taki użytkownik już istnieje!';
+            if (users.some(u => u.username === username || u.email === email)) {
+                errorDiv.textContent = 'Użytkownik lub e-mail jest już zajęty!';
                 errorDiv.style.display = 'block';
                 return;
             }
 
-            users.push({ username, pass, hwid });
+            users.push({ username, email, pass, hwid, token: null });
             localStorage.setItem('jacob_users', JSON.stringify(users));
             
             errorDiv.style.display = 'none';
@@ -806,31 +837,67 @@
             updateUserNav();
         }
 
-        function handleResetPassword() {
-            const username = document.getElementById('forgotUser').value.trim();
+        // Krok 1: Weryfikacja e-mail + HWID i generowanie linku resetującego
+        function handleSendResetLink() {
+            const email = document.getElementById('forgotEmail').value.trim();
             const hwid = document.getElementById('forgotHwid').value.trim();
-            const newPass = document.getElementById('forgotNewPass').value.trim();
             const errorDiv = document.getElementById('forgotError');
             const successDiv = document.getElementById('forgotSuccess');
 
             let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
-            const userIndex = users.findIndex(u => u.username === username && u.hwid === hwid);
+            const userIndex = users.findIndex(u => u.email === email && u.hwid === hwid);
 
-            if (userIndex === -1 || newPass.length < 4) {
-                errorDiv.textContent = 'Błędny login, HWID lub za krótkie hasło (min. 4 znaki)!';
+            if (userIndex === -1) {
                 errorDiv.style.display = 'block';
                 successDiv.style.display = 'none';
                 return;
             }
 
-            users[userIndex].pass = newPass;
+            // Generowanie unikalnego tokenu i przypisanie go do użytkownika
+            const token = 'reset_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+            users[userIndex].token = token;
             localStorage.setItem('jacob_users', JSON.stringify(users));
 
             errorDiv.style.display = 'none';
             successDiv.style.display = 'block';
+
+            // Symulacja wysyłania e-maila – w celach demonstracyjnych wyświetlamy gotowy link w alert oraz w konsoli
+            const resetLink = window.location.origin + window.location.pathname + '?reset_token=' + token;
             
             setTimeout(() => {
                 closeModal('forgotModal');
+                alert(`[SYMULACJA E-MAILA]\nWysłano wiadomość na adres: ${email}\n\nKliknij poniższy link, aby przejść do resetowania hasła:\n${resetLink}`);
+            }, 1200);
+        }
+
+        // Krok 2: Ustawienie nowego hasła po wejściu w link
+        function handleConfirmReset() {
+            const newPass = document.getElementById('newPassFromLink').value.trim();
+            const errorDiv = document.getElementById('resetError');
+            const successDiv = document.getElementById('resetSuccess');
+
+            if (newPass.length < 4) {
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('jacob_users')) || [];
+            const userIndex = users.findIndex(u => u.username === activeResetUser);
+
+            if (userIndex !== -1) {
+                users[userIndex].pass = newPass;
+                users[userIndex].token = null; // Unieważnienie tokenu po użyciu
+                localStorage.setItem('jacob_users', JSON.stringify(users));
+            }
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'block';
+
+            setTimeout(() => {
+                closeModal('resetModal');
+                // Usuń token z adresu URL bez przeładowania strony
+                window.history.replaceState({}, document.title, window.location.pathname);
                 openModal('loginModal');
             }, 1500);
         }
