@@ -3,261 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jacob Dev | Software & Tools</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Auto Backup - Server Protection</title>
     <style>
-        :root {
-            --bg-dark: #0d1117;
-            --card-bg: #161b22;
-            --border: #30363d;
-            --accent-blue: #58a6ff;
-            --accent-green: #238636;
-            --text-main: #c9d1d9;
-            --text-white: #ffffff;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        header {
-            border-bottom: 1px solid var(--border);
-            padding: 40px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
-            position: relative;
-        }
-
-        .lang-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
             display: flex;
-            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-
-        .lang-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: 0.2s;
-        }
-
-        .lang-btn.active, .lang-btn:hover {
-            border-color: var(--accent-blue);
-            color: var(--text-white);
-        }
-
-        header h1 {
-            color: var(--text-white);
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-        }
-
-        header h1 span {
-            color: var(--accent-blue);
-        }
-
-        header p {
-            color: #8b949e;
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-
         .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-blue);
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent-blue);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            width: fit-content;
-            margin-bottom: 15px;
-            border: 1px solid rgba(88, 166, 255, 0.2);
-        }
-
-        .product-card h3 {
-            color: var(--text-white);
-            font-size: 1.4rem;
-            margin: 0 0 10px 0;
-        }
-
-        .product-card p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #8b949e;
-            margin-bottom: 20px;
-        }
-
-        .price {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--text-white);
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            display: block;
-            text-align: center;
-            background-color: var(--accent-green);
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #2ea043;
-        }
-
-        .btn-coming {
-            background-color: var(--border);
-            color: #8b949e;
-            cursor: not-allowed;
-        }
-
-        footer {
-            text-align: center;
+            background-color: #1e293b;
             padding: 40px;
-            border-top: 1px solid var(--border);
-            color: #8b949e;
-            font-size: 0.9rem;
-            margin-top: 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+        .tagline {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        .features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .features li::before {
+            content: "✓";
+            color: #38bdf8;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f8fafc;
+            margin-bottom: 25px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #0284c7;
+            color: white;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0369a1;
+        }
+        .btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="lang-switch">
-            <button class="lang-btn" onclick="setLanguage('pl')">PL</button>
-            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-        </div>
-        <h1>Jacob <span>Dev</span></h1>
-        <p id="header-desc">Oficjalny katalog narzędzi, skryptów i automatyzacji.</p>
-    </header>
-
     <div class="container">
-        <div class="products-grid">
-            
-            <!-- PRODUKT 1: Drop All -->
-            <div class="product-card">
-                <div>
-                    <div class="badge" id="badge-1">LICENSED TOOL</div>
-                    <h3>Drop All</h3>
-                    <p id="desc-1">Automatyczny system kopii zapasowych dla serwerów. Szyfrowanie, sumy kontrolne SHA256 i ochrona HWID.</p>
-                </div>
-                <div>
-                    <div class="price">49 PLN / $12</div>
-                    <!-- TUTAJ WKLEJASZ SWÓJ LINK DO PŁATNOŚCI -->
-                    <a href="https://twoj-link-do-platnosci.com" target="_blank" class="btn" id="btn-1">Kup Teraz</a>
-                </div>
-            </div>
+        <h1>Auto Backup</h1>
+        <div class="tagline">Enterprise Server Protection</div>
+        
+        <p class="description">
+            Zaawansowany, w pełni zautomatyzowany system tworzenia i szyfrowania kopii zapasowych dla wymagających środowisk serwerowych. <strong>Auto Backup</strong> gwarantuje stuprocentową integralność danych dzięki wbudowanym sumom kontrolnym <strong>SHA256</strong> oraz rygorystycznej, sprzętowej ochronie licencji <strong>HWID</strong>, która uniemożliwia nieautoryzowane powielanie instancji.
+        </p>
 
-            <!-- PRODUKT 2: Miejsce na kolejny projekt -->
-            <div class="product-card">
-                <div>
-                    <div class="badge" style="color: #ffbd2e; border-color: rgba(255,189,46,0.2); background: rgba(255,189,46,0.1);" id="badge-2">W PRZYGOTOWANIU</div>
-                    <h3>Kolejny Moduł</h3>
-                    <p id="desc-2">Nowe narzędzie pojawi się niedługo. Pracujemy nad kolejnymi automatyzacjami.</p>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-coming" id="btn-2">Wkrótce</a>
-                </div>
-            </div>
+        <ul class="features">
+            <li>Szyfrowanie w locie: Pełna ochrona danych na każdym etapie przesyłu.</li>
+            <li>Autoryzacja HWID: Bezpieczne przypisanie subskrypcji do maszyny docelowej.</li>
+            <li>Automatyczne rotacje: Harmonogramy kopii dostosowane do obciążenia serwera.</li>
+        </ul>
 
-        </div>
+        <div class="price">37.50 PLN</div>
+
+        <a href="#" class="btn">Kup Teraz</a>
     </div>
-
-    <footer>
-        &copy; 2026 Jacob Dev. All rights reserved.
-    </footer>
-
-    <script>
-        const translations = {
-            pl: {
-                headerDesc: "Oficjalny katalog narzędzi, skryptów i automatyzacji.",
-                badge1: "LICENCJONOWANE",
-                desc1: "Automatyczny system kopii zapasowych dla serwerów. Szyfrowanie, sumy kontrolne SHA256 i ochrona HWID.",
-                btn1: "Kup Teraz",
-                badge2: "W PRZYGOTOWANIU",
-                desc2: "Nowe narzędzie pojawi się niedługo. Pracujemy nad kolejnymi automatyzacjami.",
-                btn2: "Wkrótce"
-            },
-            en: {
-                headerDesc: "Official catalog of tools, scripts, and automation.",
-                badge1: "LICENSED TOOL",
-                desc1: "Automated backup system for servers. Encryption, SHA256 checksums, and HWID protection.",
-                btn1: "Buy Now",
-                badge2: "COMING SOON",
-                desc2: "A new tool will be available soon. Working on new automation software.",
-                btn2: "Coming Soon"
-            }
-        };
-
-        function setLanguage(lang) {
-            document.getElementById('header-desc').innerText = translations[lang].headerDesc;
-            document.getElementById('badge-1').innerText = translations[lang].badge1;
-            document.getElementById('desc-1').innerText = translations[lang].desc1;
-            document.getElementById('btn-1').innerText = translations[lang].btn1;
-            document.getElementById('badge-2').innerText = translations[lang].badge2;
-            document.getElementById('desc-2').innerText = translations[lang].desc2;
-            document.getElementById('btn-2').innerText = translations[lang].btn2;
-
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            if(lang === 'pl') document.querySelectorAll('.lang-btn')[0].classList.add('active');
-            if(lang === 'en') document.querySelectorAll('.lang-btn')[1].classList.add('active');
-        }
-
-        // Wykrywanie języka przeglądarki użytkownika
-        const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('pl')) {
-            setLanguage('pl');
-        } else {
-            setLanguage('en');
-        }
-    </script>
 
 </body>
 </html>
